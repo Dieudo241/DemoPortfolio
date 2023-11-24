@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-    
 
 
 </head>
@@ -154,27 +153,44 @@
                 <h3>Description du produit</h3>
                 <p>Les détails du produit.</p>
                 <a href="#">Lien vers la page de vente</a>
+
+                
               </div>
             </div>
           </section>
 
 
-              
-
-
-
-              
-
-
-
-              
-
-
+          <!DOCTYPE html>
+          <html lang="fr">
+          <head>
+            <meta charset="UTF-8">
+            <title>Formulaire de contact</title>
+            <link rel="stylesheet" href="style.css">
+          </head>
+          <body>
+            <div class="container">
+              <h1>Formulaire de contact</h1>
+              <form action="traitement.php" method="post">
+                <div class="form-group">
+                  <label for="prenom">Prénom</label>
+                  <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
+                </div>
+                <div class="form-group">
+                  <label for="nom">Nom</label>
+                  <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+                </div>
+                <button type="submit">Envoyer</button>
+              </form>
+            </div>
+          </body>
+          </html>
 
             </section>
 
-              
-            
         </main>
         
         <script>
@@ -221,12 +237,53 @@ function myFunction() {
 
 
 
+$("#thumbnailImage").click(function() {
+   $(this).attr('width', '500');
+    $(this).attr('height', 'auto');
+});
 
-
-
-
-
-       
         </script>
+
+<footer>
+  <div class="icons">
+    <ul>
+      <li>
+        <a href="#!">
+          <i class="fa fa-fw fa-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#!">
+          <i class="fa fa-fw fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#!">
+          <i class="fa fa-fw fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#!">
+          <i class="fa fa-fw fa-instagram"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  </br>
+  
+  <img src="https://soundsplash-app.s3.amazonaws.com/uploads/user/profile_picture/23/Profile_Pic_Square.jpg" id="thumbnailImage">
+  </footer>
+  
+  
+
+
+
       </body>
+
+
+
+
+
+
+      
     </html>
