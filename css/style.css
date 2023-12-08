@@ -212,7 +212,7 @@ section {
   background-color: #04AA6D;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 body {
