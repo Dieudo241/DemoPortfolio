@@ -273,13 +273,19 @@ body {
   margin-top: 70px;
   float: right;
   margin-right: 200px;
+  text-align: center;
 }
 
-li {
-  float: left;
+
+
+.icons li {
+  display: inline-block; /* Affichage en ligne pour les éléments li */
   margin-left: 10px;
   list-style: none;
 }
+
+
+
 
 fa-fw {
   text-align: left;
