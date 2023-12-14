@@ -45,3 +45,9 @@ var slideIndex = 1;
       $(this).attr('width', '500');
       $(this).attr('height', 'auto');
     });
+    
+    function toggleMenu() {
+      const menu = document.querySelector('.menu-list');
+      menu.classList.toggle('active');
+    }
+    

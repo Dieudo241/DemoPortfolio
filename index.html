@@ -2,12 +2,22 @@
 <html lang="fr">
 
 <head>
-
+ 
+ 
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flip box/flip card with HTML CSS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://use.fontawesome.com/6c5fb23c6b.js"></script>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script defer src="JS/SCRIPT.JS"></script>
-
+ 
   <title> MON PORTFOLIO</title>
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -16,26 +26,39 @@
   <header>
 
 
-    <div class="logo">
-      <img src="images/Paris_Saint-Germain_Logo.svg.png" alt="Logo de votre entreprise">
-    </div>
-    <div class="commercial-info">
-      <h1>Dieudonné LAWSON</h1>
-    </div>
+  
 
-
-    <div class="topnav" id="myTopnav">
-      <a href="#home" class="active">Home</a>
-      <a href="#news">News</a>
-      <a href="#contact">Contact</a>
-      <a href="#about">About</a>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-      </a>
+      <div class="logo">
+        <img src="images/Paris_Saint-Germain_Logo.svg.png" alt="Logo de votre entreprise">
+      </div>
+  
+      <div class="commercial-info">
+        <h1>Dieudonné LAWSON</h1>
+      </div>
     </div>
 
+    <nav class="navbar">
+      <div class="burger-menu" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <ul class="menu-list">
+        <li><a href="#profil">Accueil</a></li>
+        <li><a href="#">Edito</a></li>
+        <li><a href="#Front Side">Projets</a></li>
+
+        <li><a href="http://127.0.0.1:5500/index.html#:~:text=Formulaire%20de%20contact">Contact</a></li>
+      </ul>
+    </nav>
+      
+
+  
+    
 
 
+ 
+    
 
   </header>
 
@@ -43,6 +66,7 @@
 
 
   <main>
+
 
 
 
@@ -84,89 +108,117 @@
         <span class="dot" onclick="currentSlide(3)"></span>
       </div>
     </section>
+   
+  
+    <div id="projet" class="flip-box-container">
 
-
-
-
-
-    </section>
-
-    <section id="projet">
-      <div class="flipbox">
-        <div class="flipbox-front">
-
-          <h2>Titre du projet</h2>
+      <div class="services-box">
+        <div class="service">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+                <h2>JINGLLE BELL</h2>
+              </div>
+              <div class="flip-box-back">
+                <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="flipbox-back">
-          <h3>Description du projet</h3>
-          <p>Une description détaillée du projet.</p>
-          <a href="#">Lien vers le projet</a>
+    
+        <div class="service">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+                <h2>JINGLLE BELL</h2>
+              </div>
+              <div class="flip-box-back">
+                <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="service">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+                <h2>JINGLLE BELL</h2>
+              </div>
+              <div class="flip-box-back">
+                <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+
+    <div id="projet" class="flip-box-container">
+
+
+
+      <div class="service">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+              <h2>JINGLLE BELL</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+              <h2>JINGLLE BELL</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="flipbox">
-        <div class="flipbox-front">
-
-          <h2>Titre de l'article</h2>
-        </div>
-        <div class="flipbox-back">
-          <p>Le contenu de l'article.</p>
-        </div>
-      </div>
-
-      <div class="flipbox">
-        <div class="flipbox-front">
-
-          <h2>Nom du produit</h2>
-        </div>
-        <div class="flipbox-back">
-          <h3>Description du produit</h3>
-          <p>Les détails du produit.</p>
-          <a href="#">Lien vers la page de vente</a>
-        </div>
-      </div>
-    </section>
-    <section id="projet">
-
-      <div class="flipbox">
-        <div class="flipbox-front">
-          <h2>Titre de l'événement</h2>
-        </div>
-        <div class="flipbox-back">
-          <h3>Détails de l'événement</h3>
-          <p>La date, l'heure, le lieu et d'autres informations sur l'événement.</p>
-          <a href="#">Lien vers la page d'inscription</a>
+      <div class="service">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="https://i.ibb.co/KXXzgvm/greeting-card.png">
+              <h2>JINGLLE BELL</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>We provide unique gifting ideas & products that will have a long-lasting impact on customers.</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="flipbox">
-        <div class="flipbox-front">
 
-          <h2>Nom du produit</h2>
-        </div>
-        <div class="flipbox-back">
-          <h3>Description du produit</h3>
-          <p>Les détails du produit.</p>
-          <a href="#">Lien vers la page de vente</a>
-        </div>
-      </div>
+    </div>
 
-      <div class="flipbox">
-        <div class="flipbox-front">
+  
+  
+     
+    
+    
 
-          <h2>Nom du produit</h2>
-        </div>
-        <div class="flipbox-back">
-          <h3>Description du produit</h3>
-          <p>Les détails du produit.</p>
-          <a href="#">Lien vers la page de vente</a>
+    
+    
 
+</section>
 
-        </div>
-      </div>
-    </section>
-
-
+    
     <body>
       <div class="container">
         <h1>Formulaire de contact</h1>
@@ -183,6 +235,11 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" placeholder="Votre message" required></textarea>
           </div>
+
+          <label for="confidentialite">
+            <input type="checkbox" id="confidentialite" name="confidentialite">
+            En cochant cette case, je reconnais avoir pris connaissance de la politique de confidentialité du site.
+          </label>
           <button type="submit">Envoyer</button>
         </form>
       </div>
@@ -190,7 +247,7 @@
 
     </html>
 
-    </section>
+   
 
   </main>
 
@@ -199,22 +256,18 @@
     <div class="icons">
       <ul>
         <li>
-          <a href="#!">
+          <a href="https://www.facebook.com/">
             <i class="fa fa-fw fa-facebook"></i>
           </a>
         </li>
         <li>
-          <a href="#!">
+          <a href="https://twitter.com/">
             <i class="fa fa-fw fa-twitter"></i>
           </a>
         </li>
         <li>
-          <a href="#!">
-            <i class="fa fa-fw fa-github"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#!">
+        
+          <a href="https://www.instagram.com/">
             <i class="fa fa-fw fa-instagram"></i>
           </a>
         </li>

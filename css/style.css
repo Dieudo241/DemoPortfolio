@@ -4,6 +4,8 @@
   body {
     font-family: Verdana, sans-serif;
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   .mySlides {
     display: none;
@@ -37,71 +39,51 @@
     right: 0;
     border-radius: 3px 0 0 3px;
   }
-  /* En survol, ajoutez la couleur noire de l'arrière-plan avec un peu see-through */
-  .prev:hover,
-  .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
+  
  
-
-  /* Add a black background color to the top navigation */
-.topnav {
-  background-color: #333;
-  overflow: hidden;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Add an active class to highlight the current page */
-.topnav a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-/* Hide the link that should open and close the topnav on small screens */
-.topnav .icon {
-  display: none;
-}
-
-
-/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
-  .topnav a:not(:first-child) {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #002db5;
+    color: #fff;
   }
-}
+  
+  .burger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 3px 0;
+    transition: 0.4s;
+  }
+  
+  .menu-list {
+    display: flex;
+    list-style: none;
+  }
+  
+  .menu-list li {
+    margin-right: 20px;
+  }
+  
+  .menu-list li a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease; /* Animation de transition */
+  }
 
-/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 600px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive a.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
+  .menu-list li a:hover {
+    color: #ffcc00; /* Nouvelle couleur lors du survol */
   }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
+  
+ 
 
 /* Styles pour le header */
 header {
@@ -110,7 +92,7 @@ header {
   align-items: center;
   background-color: #1820b2; /* Couleur de fond du header */
   color: #fff; /* Couleur du texte */
-  padding: 10px 15px; /* Espacement intérieur */
+  padding: 10px 20px; /* Espacement intérieur */
 }
 
 /* Styles pour le logo */
@@ -125,6 +107,10 @@ header {
   margin: 0; /* Supprime la marge par défaut du titre */
 }
 
+.commercial-info {
+  display: flex;
+  justify-content: center;
+}
 
 
 
@@ -167,61 +153,16 @@ section {
 
 
 
-
-
-
-.flipbox {
-  width: 300px;
-  height: 200px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-
-  transition: transform 0.5s ease-in-out;
-}
-
-.flipbox:hover {
-  transform: rotateX(180deg);
-}
-
-.flipbox-front {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-.flipbox-back {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.flipbox img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.flipbox-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 0 auto;
-}
-
-#projet{
-  background-color: #04AA6D;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
-}
-
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .container {
-  width: 500px;
+  width: 100%; /* Changer la largeur fixe en 100% pour s'adapter à la taille de l'écran */
+  max-width: 500px; /* Définir une largeur maximale pour éviter un conteneur trop large sur de grands écrans */
   margin: 0 auto;
+  padding: 0 20px; /* Ajouter un padding pour améliorer l'apparence sur les petits écrans */
+  box-sizing: border-box; /* Assurer que le padding est inclus dans la largeur totale */
 }
 
 h1 {
@@ -241,6 +182,7 @@ form {
 
 label {
   font-size: 1.2em;
+  
 }
 
 input, textarea {
@@ -248,10 +190,12 @@ input, textarea {
   padding: 10px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
+  box-sizing: border-box; /* Assurer que la largeur et le padding sont inclus dans la largeur totale */
 }
 
 textarea {
   height: 100px;
+  background-color: #f1f1f1;
 }
 
 button {
@@ -260,10 +204,56 @@ button {
   padding: 10px;
   border: none;
   cursor: pointer;
+  width: 100%; /* Ajuster la largeur du bouton pour occuper la largeur totale du formulaire */
+  box-sizing: border-box; /* Assurer que le padding est inclus dans la largeur totale */
 }
 
-.form-green {
-  background-color: green;
+/* Media Queries pour rendre le formulaire réactif sur différents écrans */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0 10px; /* Réduire le padding pour les écrans plus petits */
+  }
+
+  form {
+    padding: 15px; /* Ajuster l'espacement du formulaire pour les écrans plus petits */
+  }
+
+  input, textarea {
+    padding: 8px; /* Réduire la taille du padding pour une meilleure apparence sur les petits écrans */
+  }
+
+  .profile-photo img {
+    width: 150px; /* Redimensionnement de la largeur pour les écrans plus petits */
+    height: 150px; /* Redimensionnement de la hauteur pour les écrans plus petits */
+    margin-left: calc(50% - 75px); /* Centrer horizontalement sur les écrans plus petits */
+  }
+
+
+  .burger-menu {
+    display: flex;
+  }
+
+  .menu-list {
+    display: none;
+    flex-direction: column;
+    background-color: #000000;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .menu-list.active {
+    display: flex;
+  }
+
+  .menu-list li {
+    margin: 10px 0;
+  }
+
+
 }
 
 
@@ -298,7 +288,7 @@ fa-fw {
 .fa {
   display: inline-block;
   font-size: 20px;
-  border-sizing: border-box;
+ 
   border-style: solid;
   border-width: 2px;
   border-radius: 100%;
@@ -310,7 +300,7 @@ fa-fw {
 .fa-facebook {
   display: inline-block;
   font-size: 20px;
-  border-sizing: border-box;
+ 
   border-style: solid;
   border-width: 2px;
   border-radius: 100%;
@@ -339,9 +329,101 @@ fa-fw {
   border-color: #804000;
 }
 
-#thumbnailImage {
-  
+
+label {
+  display: flex; /* Utilisation de flexbox */
+  align-items: center; /* Alignement vertical */
+  margin-bottom: 10px; /* Espacement entre les labels */
 }
+input[type="checkbox"] {
+  margin-right: 10px; /* Espacement entre la case à cocher et le texte */
+}
+
+
+/* Styles pour le conteneur des flip-boxes */
+/* Styles pour le conteneur des flip-boxes */
+
+
+.services-box
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.service
+{
+  margin: 8px;
+}
+
+.flip-box {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;  
+  border-radius: 10px;
+  perspective: 1000px;
+}
+
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-box:hover .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flip-box-front {
+  background-color: #fff;
+  color: black;
+  border-radius: 10px;
+}
+
+.flip-box-front img
+{
+  height: 50px;
+  width: 50px;
+}
+
+.flip-box-back {
+  background-color: #ffffff;
+  color: #000;
+  transform: rotateY(180deg);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.flip-box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; /* Espace entre les boîtes à retournement */
+}
+
+
 
 
 
