@@ -249,7 +249,7 @@ button {
     display: flex;
   }
 
-  .menu-list li {+
+  .menu-list li {
     margin: 10px 0;
   }
 
