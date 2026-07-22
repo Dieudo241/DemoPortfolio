@@ -1,8 +1,8 @@
 # Teeptrak → Power BI : TRS Hutchinson
 
 Refonte de la requête Power Query d'origine (une seule table géante, tous les
-sous-détails d'arrêt développés en colonnes) en un modèle en étoile à 2 tables,
-avec un anti-doublon explicite sur les 5 clés métier.
+sous-détails d'arrêt développés en colonnes) en **2 requêtes M autonomes**,
+chacune avec sa propre logique anti-doublon sur les 5 clés métier.
 
 ## Pourquoi ce découpage
 
@@ -17,30 +17,47 @@ est plus robuste et directement agrégeable en DAX.
 
 ## Fichiers
 
-- **`Base.pq`** — requête de staging (désactiver "Activer le chargement").
-  Appel API, aplatissement JSON, puis anti-doublon : clé =
-  `Date de Production | Equipe | Machine | Atelier | Produit`, on garde la
-  ligne avec l'`id` maximum par clé (`Table.Group` + `Table.Sort` desc +
-  `Table.FirstN(_, 1)`).
-- **`Production.pq`** — référence `Base`, retire `issue_type_durations` :
-  quantités (nette/conforme/rebut) et temps productif, une ligne par shift
-  dédupliqué.
-- **`Arrets.pq`** — référence `Base`, ne garde que les colonnes d'identité
-  jusqu'à `Equipe` (shift_key) + `issue_type_durations`, puis convertit ce
-  record en table longue via `Record.ToTable` : une ligne par
-  `(id, Type Arret)` avec `Duree Arret (s)`, `Occurrences`,
-  `Loss Level0 Id/Name`. Les sous-catégories `_details` sont exclues (elles
-  restent disponibles si besoin, mais ne sont pas développées ici).
+- **`Production.pq`** — requête complète et indépendante : appel API,
+  aplatissement JSON, retrait de `issue_type_durations`, puis anti-doublon.
+  Une ligne par shift dédupliqué, avec quantités (nette/conforme/rebut) et
+  temps productif.
+- **`Arrets.pq`** — requête complète et indépendante (même appel API), qui
+  applique le **même anti-doublon** que `Production.pq` (mêmes 5 clés) avant
+  de ne garder que les colonnes d'identité jusqu'à `Equipe` (shift_key) +
+  `issue_type_durations`. Ce record est ensuite converti en table longue via
+  `Record.ToTable` : une ligne par `(id, Type Arret)` avec
+  `Duree Arret (s)`, `Occurrences`, `Loss Level0 Id/Name`. Les sous-catégories
+  `_details` sont exclues (pas développées ici).
+
+Les deux fichiers dupliquent volontairement l'appel API et la logique
+anti-doublon plutôt que de passer par une requête de staging partagée : vous
+pouvez les coller tels quels dans deux requêtes Power BI séparées, sans étape
+intermédiaire à créer.
+
+## Logique anti-doublon (identique dans les 2 fichiers)
+
+Clé = `Date de Production | Equipe | Machine | Atelier | Produit` (les 5
+clés). Pour chaque valeur de clé en doublon, on ne garde que la ligne dont
+l'`id` est le plus grand :
+
+```
+Table.Group(table, {"Cle_5"}, {
+    {"Ligne", each Table.FirstN(Table.Sort(_, {{"id", Order.Descending}}), 1)}
+})
+```
+
+Côté `Arrets.pq`, cet anti-doublon est appliqué **avant** l'éclatement de
+`issue_type_durations` en lignes, pour dédupliquer au niveau du poste et non
+au niveau de chaque ligne d'arrêt.
 
 ## Mise en place dans Power BI
 
 1. Créer un paramètre texte **`Bearer_Token`** (Accueil > Gérer les
    paramètres > Nouveau paramètre) et y coller le token — ne jamais le coder
    en dur dans le M si le fichier est versionné/partagé.
-2. Créer la requête `Base` avec le contenu de `Base.pq`, puis clic droit >
-   **Activer le chargement** pour la décocher (c'est une requête technique).
-3. Créer `Production` et `Arrets` avec le contenu des fichiers correspondants
-   (ils référencent `Base` par son nom de requête).
+2. Créer une requête vide `Production`, coller le contenu de `Production.pq`
+   dans l'éditeur avancé.
+3. Créer une requête vide `Arrets`, coller le contenu de `Arrets.pq`.
 4. Dans le modèle, créer une relation **`Production[id]` (1) → `Arrets[id]`
    (plusieurs)**. Les mesures TRS/OEE (temps d'arrêt par type, disponibilité,
    etc.) s'appuient sur `SUM(Arrets[Duree Arret (s)])` filtré par
