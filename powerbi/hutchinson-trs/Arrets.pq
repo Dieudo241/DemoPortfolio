@@ -54,7 +54,7 @@ let
     #"Groupé par clé" = Table.Group(#"Ajout Clé", {"Cle_5"}, {
         {"Ligne", each Table.FirstN(Table.Sort(_, {{"id", Order.Descending}}), 1)}
     }),
-    #"Déplié" = Table.ExpandTableColumn(#"Groupé par clé", "Ligne", Table.ColumnNames(#"Ajout Clé")),
+    #"Déplié" = Table.ExpandTableColumn(#"Groupé par clé", "Ligne", List.RemoveItems(Table.ColumnNames(#"Ajout Clé"), {"Cle_5"})),
     #"Suppression Clé technique" = Table.RemoveColumns(#"Déplié", {"Cle_5"}),
 
     // ---- On développe jusqu'à l'équipe (shift_key), puis on ne garde que issue_type_durations ----
