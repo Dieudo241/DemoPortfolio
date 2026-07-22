@@ -1,8 +1,11 @@
 // Table ARRETS — requête autonome (aucune dépendance à une autre requête).
-// Format LONG : une ligne par (id, Type Arret) au lieu d'une colonne par type
-// d'arrêt / sous-cause. On applique le MÊME anti-doublon que côté Production
-// (5 clés, id max) AVANT d'éclater issue_type_durations, pour dédupliquer au
-// niveau du poste et non au niveau de chaque ligne d'arrêt.
+// Format LONG : une ligne par (id, Type Arret) avec sa durée en secondes, au lieu
+// d'une colonne par type d'arrêt. On applique le MÊME anti-doublon que côté
+// Production (5 clés, id max) AVANT d'éclater issue_type_durations, pour
+// dédupliquer au niveau du poste et non au niveau de chaque ligne d'arrêt.
+// Les catégories de 1er niveau (Arrêts planifiés, Pannes, Micro-arrêt, ...) ne
+// portent qu'une durée totale ; le détail Occurrences/Loss Level0 par sous-cause
+// n'existe que dans les champs "_details", volontairement exclus ici.
 let
     // Même paramètre "Bearer_Token" que dans Production.pq
     Bearer_Token = Bearer_Token,
@@ -72,21 +75,27 @@ let
     #"Colonnes supprimées Issue" = Table.RemoveColumns(#"Catégories 1er niveau", {"issue_type_durations"}),
 
     // ---- Concaténation de tous les types d'arrêt en LIGNES (au lieu de colonnes) ----
+    // Important : au niveau 1er niveau, chaque catégorie (Arrêts planifiés, Micro-arrêt,
+    // Pannes, Fermeture site, Unknown, ...) est un NOMBRE simple (la durée totale), pas
+    // un enregistrement {duration, occurrences, loss_level0_id, loss_level0_name} — cette
+    // décomposition-là n'existe que dans les champs "_details" qu'on exclut volontairement.
+    // Il ne faut donc PAS développer "Value" comme un record (ça produisait [Error] sur
+    // toutes les lignes) : on le garde tel quel comme durée en secondes.
     #"Ajout table catégories" = Table.AddColumn(#"Colonnes supprimées Issue", "CategoriesTable", each Record.ToTable([Categories])),
     #"Colonnes supprimées Categories" = Table.RemoveColumns(#"Ajout table catégories", {"Categories"}),
     #"Déplié CategoriesTable" = Table.ExpandTableColumn(#"Colonnes supprimées Categories", "CategoriesTable",
-        {"Name", "Value"}, {"Type Arret", "Detail"}),
+        {"Name", "Value"}, {"Type Arret", "Duree Arret (s)"}),
 
-    // Pas de ligne pour les catégories absentes de ce poste
-    #"Lignes filtrées Vides" = Table.SelectRows(#"Déplié CategoriesTable", each [Detail] <> null),
+    // Pas de ligne pour les catégories absentes / à 0 sur ce poste
+    #"Lignes filtrées Vides" = Table.SelectRows(#"Déplié CategoriesTable", each [Duree Arret (s)] <> null),
 
-    #"Déplié Detail" = Table.ExpandRecordColumn(#"Lignes filtrées Vides", "Detail",
-        {"duration", "occurrences", "loss_level0_id", "loss_level0_name"},
-        {"Duree Arret (s)", "Occurrences", "Loss Level0 Id", "Loss Level0 Name"}),
+    #"Types changés" = Table.TransformColumnTypes(#"Lignes filtrées Vides", {
+        {"Duree Arret (s)", type number}
+    }),
 
-    #"Types changés" = Table.TransformColumnTypes(#"Déplié Detail", {
-        {"Duree Arret (s)", type number},
-        {"Occurrences", type number}
+    // ---- Sécurisation : même logique que côté Production, une erreur API devient 0 ----
+    #"Erreurs Nombres Remplacées" = Table.ReplaceErrorValues(#"Types changés", {
+        {"Duree Arret (s)", 0}
     })
 in
-    #"Types changés"
+    #"Erreurs Nombres Remplacées"

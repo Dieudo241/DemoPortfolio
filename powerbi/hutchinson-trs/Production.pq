@@ -79,6 +79,16 @@ let
         {"updated_at", type datetime},
         {"started_at", type datetime},
         {"ended_at", type datetime}
+    }),
+
+    // ---- Sécurisation : l'API renvoie parfois une erreur (division par zéro /
+    // valeur non calculable côté Teeptrak, ex. pseudo-postes de fermeture) au lieu
+    // d'un nombre sur ces champs. On neutralise en 0 pour ne pas casser le DAX.
+    #"Erreurs Nombres Remplacées" = Table.ReplaceErrorValues(#"Types changés", {
+        {"Quantité Nette", 0},
+        {"Quantité Conforme", 0},
+        {"Quantité Rebut", 0},
+        {"Temps Productif (s)", 0}
     })
 in
-    #"Types changés"
+    #"Erreurs Nombres Remplacées"

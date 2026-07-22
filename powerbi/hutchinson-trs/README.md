@@ -25,9 +25,11 @@ est plus robuste et directement agrégeable en DAX.
   applique le **même anti-doublon** que `Production.pq` (mêmes 5 clés) avant
   de ne garder que les colonnes d'identité jusqu'à `Equipe` (shift_key) +
   `issue_type_durations`. Ce record est ensuite converti en table longue via
-  `Record.ToTable` : une ligne par `(id, Type Arret)` avec
-  `Duree Arret (s)`, `Occurrences`, `Loss Level0 Id/Name`. Les sous-catégories
-  `_details` sont exclues (pas développées ici).
+  `Record.ToTable` : une ligne par `(id, Type Arret)` avec `Duree Arret (s)`.
+  Les sous-catégories `_details` sont exclues (pas développées ici) — et donc
+  pas d'`Occurrences`/`Loss Level0 Id/Name` non plus : au 1er niveau,
+  Teeptrak ne renvoie qu'une durée totale par catégorie (un nombre), le détail
+  par sous-cause n'existe que dans `_details`.
 
 Les deux fichiers dupliquent volontairement l'appel API et la logique
 anti-doublon plutôt que de passer par une requête de staging partagée : vous
@@ -49,6 +51,15 @@ Table.Group(table, {"Cle_5"}, {
 Côté `Arrets.pq`, cet anti-doublon est appliqué **avant** l'éclatement de
 `issue_type_durations` en lignes, pour dédupliquer au niveau du poste et non
 au niveau de chaque ligne d'arrêt.
+
+## Erreurs API neutralisées en 0
+
+Sur certains postes (ex. pseudo-shifts de fermeture site), Teeptrak peut
+renvoyer une valeur non calculable (division par zéro, etc.) sur
+`net_count`/`good_count`/`bad_count`/`productive_duration` côté Production,
+ou sur la durée d'une catégorie côté Arrêts. `Table.ReplaceErrorValues` est
+appliqué en toute fin de chaîne pour remplacer ces erreurs par `0`, sinon
+elles cassent les mesures DAX en aval.
 
 ## Mise en place dans Power BI
 
